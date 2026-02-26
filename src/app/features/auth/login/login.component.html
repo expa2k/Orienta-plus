@@ -1,0 +1,119 @@
+<div class="auth-layout">
+    <div class="auth-left">
+        <div class="brand">
+            <div class="brand-logo">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3L22 8.5V15.5L12 21L2 15.5V8.5L12 3Z" stroke="white" stroke-width="2"
+                        stroke-linejoin="round" />
+                    <path d="M12 3V21M2 8.5L22 8.5" stroke="white" stroke-width="2" />
+                </svg>
+            </div>
+            <div class="brand-text">
+                <span class="brand-name">Orienta+</span>
+                <span class="brand-tagline">Test Vocacional</span>
+            </div>
+        </div>
+
+        <div class="auth-form-wrapper">
+            <h1>Bienvenido de vuelta</h1>
+            <p class="subtitle">Ingresa tus credenciales para continuar</p>
+
+            @if (error()) {
+            <div class="alert alert-error">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                {{ error() }}
+            </div>
+            }
+
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label class="form-label" for="correo">Correo Electrónico</label>
+                    <input id="correo" type="email" formControlName="correo" class="form-control"
+                        [class.error]="correoInvalid" placeholder="tu@email.com" />
+                    @if (correoInvalid) {
+                    <span class="field-error">Ingresa un correo válido</span>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="contrasena">Contraseña</label>
+                    <div class="input-wrapper">
+                        <input id="contrasena" [type]="showPassword() ? 'text' : 'password'"
+                            formControlName="contrasena" class="form-control" [class.error]="contrasenaInvalid"
+                            placeholder="••••••••" />
+                        <button type="button" class="eye-btn" (click)="togglePassword()">
+                            @if (showPassword()) {
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                                <line x1="1" y1="1" x2="23" y2="23" />
+                            </svg>
+                            } @else {
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                            }
+                        </button>
+                    </div>
+                    @if (contrasenaInvalid) {
+                    <span class="field-error">Mínimo 6 caracteres</span>
+                    }
+                </div>
+
+                <div class="form-footer">
+                    <label class="checkbox-label">
+                        <input type="checkbox" formControlName="recordar" />
+                        <span>Recordarme</span>
+                    </label>
+                    <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary" [disabled]="loading()">
+                    @if (loading()) {
+                    <span class="spinner"></span>
+                    } @else {
+                    <span>Iniciar Sesión</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                    }
+                </button>
+            </form>
+
+            <p class="register-link">
+                ¿No tienes cuenta?
+                <a routerLink="/register">Regístrate gratis</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="auth-right">
+        <div class="auth-right-content">
+            <h2>Descubre tu futuro<br />profesional</h2>
+            <p>Un test vocacional completo diseñado para ayudarte a encontrar la carrera perfecta para ti</p>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-value">15min</span>
+                    <span class="stat-label">Duración</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">30</span>
+                    <span class="stat-label">Preguntas</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">92%</span>
+                    <span class="stat-label">Precisión</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

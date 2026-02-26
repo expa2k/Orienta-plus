@@ -1,0 +1,161 @@
+<div class="perfil-page">
+
+    <div class="perfil-topbar">
+        <button class="back-btn" (click)="goBack()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Regresar
+        </button>
+    </div>
+
+    <div class="perfil-container">
+
+        <div class="perfil-sidebar">
+            <div class="avatar-ring">
+                <div class="perfil-avatar">
+                    {{ auth.currentUser()?.nombre?.charAt(0) }}{{ auth.currentUser()?.apellido?.charAt(0) }}
+                </div>
+            </div>
+            <h2 class="perfil-name">{{ auth.currentUser()?.nombre }} {{ auth.currentUser()?.apellido }}</h2>
+            <span class="perfil-badge">
+                {{ auth.currentUser()?.rol === 'admin' ? 'Administrador' : 'Estudiante' }}
+            </span>
+            <p class="perfil-email">{{ auth.currentUser()?.correo }}</p>
+        </div>
+
+        <div class="perfil-main">
+            <div class="perfil-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Información personal</h3>
+                        <p>Actualiza tus datos de perfil</p>
+                    </div>
+                </div>
+
+                @if (success()) {
+                <div class="alert-success">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                    {{ success() }}
+                </div>
+                }
+                @if (error()) {
+                <div class="alert-error">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    {{ error() }}
+                </div>
+                }
+
+                <form (ngSubmit)="onSubmit()">
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Nombre</label>
+                                <input class="form-control" type="text" [(ngModel)]="form.nombre" name="nombre"
+                                    placeholder="Tu nombre" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Apellido</label>
+                                <input class="form-control" type="text" [(ngModel)]="form.apellido" name="apellido"
+                                    placeholder="Tu apellido" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Correo Electrónico</label>
+                            <div class="input-with-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg>
+                                <input class="form-control icon-input" type="email" [(ngModel)]="form.correo"
+                                    name="correo" placeholder="tu@email.com" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-divider">
+                        <span>Cambiar contraseña</span>
+                        <span class="optional-tag">Opcional</span>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Nueva contraseña</label>
+                                <div class="input-with-icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                    </svg>
+                                    <input class="form-control icon-input" [type]="showPass() ? 'text' : 'password'"
+                                        [(ngModel)]="form.contrasena" name="contrasena"
+                                        placeholder="Mínimo 6 caracteres" />
+                                    <button type="button" class="eye-toggle" (click)="showPass.set(!showPass())">
+                                        @if (showPass()) {
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path
+                                                d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                                            <path
+                                                d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                                            <line x1="1" y1="1" x2="23" y2="23" />
+                                        </svg>
+                                        } @else {
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                        }
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Confirmar contraseña</label>
+                                <input class="form-control" [type]="showPass() ? 'text' : 'password'"
+                                    [(ngModel)]="form.confirmar" name="confirmar" placeholder="Repite la contraseña" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary save-btn" [disabled]="loading()">
+                            <span [style.display]="loading() ? 'inline-flex' : 'none'"
+                                style="align-items:center;gap:8px">
+                                <span class="spinner"></span> Guardando...
+                            </span>
+                            <span [style.display]="loading() ? 'none' : 'inline-flex'"
+                                style="align-items:center;gap:8px">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                                    <polyline points="17 21 17 13 7 13 7 21" />
+                                    <polyline points="7 3 7 8 15 8" />
+                                </svg>
+                                Guardar Cambios
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

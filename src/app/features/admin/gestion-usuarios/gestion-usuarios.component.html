@@ -1,0 +1,313 @@
+<div class="admin-layout">
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3L22 8.5V15.5L12 21L2 15.5V8.5L12 3Z" stroke="white" stroke-width="2"
+                            stroke-linejoin="round" />
+                        <path d="M12 3V21M2 8.5L22 8.5" stroke="white" stroke-width="2" />
+                    </svg>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a class="nav-item active" routerLink="/admin/usuarios" title="Usuarios">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                </a>
+                <a class="nav-item" title="Reportes">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <path d="M3 9h18M9 21V9" />
+                    </svg>
+                </a>
+                <a class="nav-item" title="Estadísticas">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                    </svg>
+                </a>
+                <a class="nav-item" routerLink="/perfil" title="Mi Perfil">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </a>
+            </nav>
+        </div>
+        <button class="nav-item logout-btn" (click)="auth.logout()" title="Cerrar sesión">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+        </button>
+    </aside>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1>Gestión de Usuarios</h1>
+                <p>Administra las cuentas del sistema</p>
+            </div>
+            <button class="btn btn-primary create-btn" (click)="openCreate()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Nuevo Usuario
+            </button>
+        </div>
+
+        <div class="toolbar">
+            <div class="search-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input type="text" placeholder="Buscar usuario..." [value]="searchTerm()"
+                    (input)="searchTerm.set($any($event.target).value)" />
+            </div>
+            <span class="count">{{ filteredUsers.length }} usuarios</span>
+        </div>
+
+        @if (loading()) {
+        <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <span>Cargando usuarios...</span>
+        </div>
+        } @else if (error()) {
+        <div class="alert alert-error">{{ error() }}</div>
+        } @else {
+        <div class="table-wrapper card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Registro</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (user of filteredUsers; track user.id) {
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="avatar">{{ user.nombre[0] }}{{ user.apellido[0] }}</div>
+                                <div>
+                                    <span class="user-name">{{ user.nombre }} {{ user.apellido }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="email-cell">{{ user.correo }}</td>
+                        <td>
+                            <span [class]="'badge badge-' + user.rol">
+                                {{ user.rol === 'admin' ? 'Admin' : 'Estudiante' }}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="toggle-btn" (click)="toggleActive(user)"
+                                [title]="user.activo ? 'Desactivar' : 'Activar'">
+                                <span [class]="'badge ' + (user.activo ? 'badge-active' : 'badge-inactive')">
+                                    {{ user.activo ? 'Activo' : 'Inactivo' }}
+                                </span>
+                            </button>
+                        </td>
+                        <td class="date-cell">{{ user.fecha_registro | slice:0:10 }}</td>
+                        <td>
+                            <div class="actions">
+                                <button class="btn-icon" (click)="openEdit(user)" title="Editar">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                    </svg>
+                                </button>
+                                <button class="btn-icon" (click)="openPassword(user)" title="Cambiar contraseña">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                    </svg>
+                                </button>
+                                <button class="btn-icon danger-icon" (click)="openDelete(user)" title="Eliminar">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <polyline points="3 6 5 6 21 6" />
+                                        <path d="M19 6l-1 14H6L5 6" />
+                                        <path d="M10 11v6M14 11v6" />
+                                        <path d="M9 6V4h6v2" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="6" class="empty-state">No se encontraron usuarios</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
+    </main>
+</div>
+
+@if (showCreateModal()) {
+<div class="modal-overlay" (click)="closeAll()">
+    <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Nuevo Usuario</h3>
+            <button class="btn-icon" (click)="closeAll()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        @if (formError()) { <div class="alert alert-error">{{ formError() }}</div> }
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" [(ngModel)]="createForm.nombre" placeholder="Juan" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Apellido</label>
+                    <input type="text" class="form-control" [(ngModel)]="createForm.apellido" placeholder="Pérez" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Correo</label>
+                <input type="email" class="form-control" [(ngModel)]="createForm.correo"
+                    placeholder="correo@email.com" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Contraseña</label>
+                <input type="password" class="form-control" [(ngModel)]="createForm.contrasena"
+                    placeholder="Mínimo 6 caracteres" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Rol</label>
+                <select class="form-control" [(ngModel)]="createForm.rol">
+                    <option value="estudiante">Estudiante</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" (click)="closeAll()">Cancelar</button>
+            <button class="btn btn-primary modal-btn" (click)="submitCreate()" [disabled]="formLoading()">
+                @if (formLoading()) { <span class="spinner"></span> } @else { Crear Usuario }
+            </button>
+        </div>
+    </div>
+</div>
+}
+
+@if (showEditModal()) {
+<div class="modal-overlay" (click)="closeAll()">
+    <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Editar Usuario</h3>
+            <button class="btn-icon" (click)="closeAll()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        @if (formError()) { <div class="alert alert-error">{{ formError() }}</div> }
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" [(ngModel)]="editForm.nombre" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Apellido</label>
+                    <input type="text" class="form-control" [(ngModel)]="editForm.apellido" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Correo</label>
+                <input type="email" class="form-control" [(ngModel)]="editForm.correo" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Rol</label>
+                <select class="form-control" [(ngModel)]="editForm.rol">
+                    <option value="estudiante">Estudiante</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" (click)="closeAll()">Cancelar</button>
+            <button class="btn btn-primary modal-btn" (click)="submitEdit()" [disabled]="formLoading()">
+                @if (formLoading()) { <span class="spinner"></span> } @else { Guardar Cambios }
+            </button>
+        </div>
+    </div>
+</div>
+}
+
+@if (showPasswordModal()) {
+<div class="modal-overlay" (click)="closeAll()">
+    <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Cambiar Contraseña</h3>
+            <button class="btn-icon" (click)="closeAll()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        @if (formError()) { <div class="alert alert-error">{{ formError() }}</div> }
+        <div class="modal-body">
+            <p class="modal-user-name">{{ selectedUser()?.nombre }} {{ selectedUser()?.apellido }}</p>
+            <div class="form-group">
+                <label class="form-label">Nueva Contraseña</label>
+                <input type="password" class="form-control" [(ngModel)]="newPassword"
+                    placeholder="Mínimo 6 caracteres" />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" (click)="closeAll()">Cancelar</button>
+            <button class="btn btn-primary modal-btn" (click)="submitPassword()" [disabled]="formLoading()">
+                @if (formLoading()) { <span class="spinner"></span> } @else { Actualizar }
+            </button>
+        </div>
+    </div>
+</div>
+}
+
+@if (showDeleteModal()) {
+<div class="modal-overlay" (click)="closeAll()">
+    <div class="modal delete-modal" (click)="$event.stopPropagation()">
+        <div class="delete-icon-wrapper">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+        </div>
+        <h3>Eliminar Usuario</h3>
+        <p>¿Estás seguro de eliminar a <strong>{{ selectedUser()?.nombre }} {{ selectedUser()?.apellido }}</strong>?
+            Esta acción no se puede deshacer.</p>
+        <div class="modal-footer">
+            <button class="btn btn-outline" (click)="closeAll()">Cancelar</button>
+            <button class="btn btn-danger modal-btn" (click)="confirmDelete()" [disabled]="formLoading()">
+                @if (formLoading()) { <span class="spinner"></span> } @else { Eliminar }
+            </button>
+        </div>
+    </div>
+</div>
+}

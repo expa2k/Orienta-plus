@@ -1,0 +1,269 @@
+<div class="student-layout">
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3L22 8.5V15.5L12 21L2 15.5V8.5L12 3Z" stroke="white" stroke-width="2"
+                            stroke-linejoin="round" />
+                        <path d="M12 3V21M2 8.5L22 8.5" stroke="white" stroke-width="2" />
+                    </svg>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a class="nav-item active" routerLink="/dashboard" title="Inicio">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                </a>
+                <a class="nav-item" title="Mi Test">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                </a>
+                <a class="nav-item" title="Resultados">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10" />
+                        <line x1="12" y1="20" x2="12" y2="4" />
+                        <line x1="6" y1="20" x2="6" y2="14" />
+                    </svg>
+                </a>
+                <a class="nav-item" routerLink="/perfil" title="Mi Perfil">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </a>
+            </nav>
+        </div>
+        <button class="nav-item logout-btn" (click)="auth.logout()" title="Cerrar sesión">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+        </button>
+    </aside>
+
+    <main class="main-content">
+
+        <!-- HERO -->
+        <div class="hero-section">
+            <div class="hero-badge">Un equipo, una misión</div>
+            <div class="hero-body">
+                <div class="hero-text">
+                    <h1>TEST<br />VOCACIONAL</h1>
+                    <p>Descubre tu camino profesional ideal con nuestro test vocacional completo y obtén recomendaciones
+                        personalizadas.</p>
+                    <button class="btn btn-start">
+                        Comenzar Test
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="hero-image">
+                    <img src="/images/students.jpg" alt="Estudiantes" class="students-img"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" />
+                    <div class="image-placeholder" style="display:none">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)"
+                            stroke-width="1.5">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STATS BAR -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                </div>
+                <div>
+                    <span class="stat-value">15-20 min</span>
+                    <span class="stat-label">Duración</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
+                </div>
+                <div>
+                    <span class="stat-value">30</span>
+                    <span class="stat-label">Preguntas</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="8" r="6" />
+                        <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+                    </svg>
+                </div>
+                <div>
+                    <span class="stat-value">92%</span>
+                    <span class="stat-label">Precisión</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT SECTION: test card + testimonios -->
+        <div class="content-section">
+            <div class="test-card">
+                <div class="test-card-header">
+                    <div class="test-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path
+                                d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z" />
+                            <path
+                                d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Test Vocacional Completo</h2>
+                        <p>Descubre tus fortalezas y las carreras ideales para ti</p>
+                    </div>
+                </div>
+
+                <ul class="feature-list">
+                    <li>
+                        <span class="feature-check">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="3">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                        </span>
+                        <div>
+                            <strong>Análisis Personalizado</strong>
+                            <p>Recibe recomendaciones basadas en tus respuestas</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-check">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="3">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                        </span>
+                        <div>
+                            <strong>Top 3 Carreras</strong>
+                            <p>Conoce las mejores opciones según tu perfil</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-check">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="3">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                        </span>
+                        <div>
+                            <strong>Informe Detallado</strong>
+                            <p>Descarga tu reporte completo en PDF</p>
+                        </div>
+                    </li>
+                </ul>
+
+                <button class="btn-iniciar">Iniciar Test Ahora</button>
+            </div>
+
+            <div class="testimonios-card">
+                <div class="testimonios-header">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--clr-primary)"
+                        stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
+                    <h3>Testimonios</h3>
+                </div>
+
+                <div class="testimonio-item">
+                    <div class="t-avatar">MG</div>
+                    <div class="t-body">
+                        <strong>María González</strong>
+                        <p>Este test me ayudó a descubrir mi verdadera...</p>
+                        <span class="t-tag">Ingeniería de Software</span>
+                    </div>
+                </div>
+                <div class="testimonio-item">
+                    <div class="t-avatar">CR</div>
+                    <div class="t-body">
+                        <strong>Carlos Ruiz</strong>
+                        <p>Muy completo y fácil de entender. Las...</p>
+                        <span class="t-tag">Diseño UX/UI</span>
+                    </div>
+                </div>
+                <div class="testimonio-item">
+                    <div class="t-avatar">AT</div>
+                    <div class="t-body">
+                        <strong>Ana Torres</strong>
+                        <p>Me sorprendió lo preciso que fue. Definitivamente...</p>
+                        <span class="t-tag">Ciencia de Datos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMO FUNCIONA -->
+        <div class="como-funciona">
+            <h2>¿Cómo funciona?</h2>
+            <div class="pasos-grid">
+                <div class="paso-card">
+                    <div class="paso-icon-bg">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--clr-primary)"
+                            stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        </svg>
+                    </div>
+                    <span class="paso-label">PASO 1</span>
+                    <h4>Responde</h4>
+                    <p>Contesta 30 preguntas sobre tus intereses y habilidades</p>
+                </div>
+                <div class="paso-card">
+                    <div class="paso-icon-bg">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--clr-primary)"
+                            stroke-width="2">
+                            <path
+                                d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z" />
+                            <path
+                                d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z" />
+                        </svg>
+                    </div>
+                    <span class="paso-label">PASO 2</span>
+                    <h4>Analiza</h4>
+                    <p>Nuestro algoritmo procesa tus respuestas</p>
+                </div>
+                <div class="paso-card">
+                    <div class="paso-icon-bg">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--clr-primary)"
+                            stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                            <polyline points="17 6 23 6 23 12" />
+                        </svg>
+                    </div>
+                    <span class="paso-label">PASO 3</span>
+                    <h4>Descubre</h4>
+                    <p>Recibe tus resultados y recomendaciones personalizadas</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
