@@ -1,0 +1,278 @@
+<div class="admin-layout">
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3L22 8.5V15.5L12 21L2 15.5V8.5L12 3Z" stroke="white" stroke-width="2"
+                            stroke-linejoin="round" />
+                        <path d="M12 3V21M2 8.5L22 8.5" stroke="white" stroke-width="2" />
+                    </svg>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a class="nav-item" routerLink="/admin/usuarios" title="Usuarios">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                </a>
+                <a class="nav-item" routerLink="/admin/oferta" title="Oferta Academica">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                </a>
+                <a class="nav-item active" routerLink="/admin/resultados" title="Resultados">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <path d="M3 9h18M9 21V9" />
+                    </svg>
+                </a>
+                <a class="nav-item" title="Estadisticas">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                    </svg>
+                </a>
+                <a class="nav-item" routerLink="/perfil" title="Mi Perfil">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </a>
+            </nav>
+        </div>
+        <button class="nav-item logout-btn" (click)="auth.logout()" title="Cerrar sesion">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+        </button>
+    </aside>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Resultados del Test</h1>
+            <p>Historial de sesiones de test vocacional de todos los estudiantes</p>
+        </div>
+
+        @if (estadisticas(); as stats) {
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">{{ stats.total_sesiones }}</span>
+                    <span class="stat-label">Total sesiones</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon success">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">{{ stats.completadas }}</span>
+                    <span class="stat-label">Completadas</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon warning">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">{{ stats.en_progreso }}</span>
+                    <span class="stat-label">En progreso</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon info">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                        <polyline points="17 6 23 6 23 12" />
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">{{ stats.tasa_completado }}%</span>
+                    <span class="stat-label">Tasa de completado</span>
+                </div>
+            </div>
+        </div>
+        }
+
+        <div class="filter-bar">
+            <div class="filter-tabs">
+                <button [class.active]="filtroEstado() === ''" (click)="filtroEstado.set('')">
+                    Todos
+                    <span class="tab-count">{{ resultados().length }}</span>
+                </button>
+                <button [class.active]="filtroEstado() === 'completada'" (click)="filtroEstado.set('completada')">
+                    Completadas
+                    <span class="tab-count">{{ totalCompletadas() }}</span>
+                </button>
+                <button [class.active]="filtroEstado() === 'en_progreso'" (click)="filtroEstado.set('en_progreso')">
+                    En progreso
+                    <span class="tab-count">{{ totalEnProgreso() }}</span>
+                </button>
+            </div>
+        </div>
+
+        @if (loading()) {
+        <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <span>Cargando resultados...</span>
+        </div>
+        } @else {
+
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Estudiante</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Perfil Dominante</th>
+                        <th>Respuestas</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (r of filteredResultados(); track r.sesion.id) {
+                    <tr>
+                        <td>
+                            <span class="student-name">{{ r.estudiante?.nombre }}</span>
+                            <span class="student-email">{{ r.estudiante?.correo }}</span>
+                        </td>
+                        <td>{{ r.sesion.fecha_inicio | date:'dd/MM/yyyy HH:mm' }}</td>
+                        <td>
+                            <span class="badge" [class]="getEstadoClass(r.sesion.estado)">
+                                {{ getEstadoLabel(r.sesion.estado) }}
+                            </span>
+                        </td>
+                        <td>
+                            @if (r.perfil_dominante) {
+                            <span class="dim-badge" [attr.data-dim]="r.perfil_dominante">
+                                {{ r.perfil_dominante }} - {{ riasecNames[r.perfil_dominante] }}
+                            </span>
+                            } @else {
+                            <span class="no-data">-</span>
+                            }
+                        </td>
+                        <td>{{ r.sesion.total_respuestas }}</td>
+                        <td>
+                            <button class="btn-icon" (click)="verDetalle(r.sesion.id)" title="Ver detalle">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="6" class="empty-state">No hay resultados de tests</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
+    </main>
+</div>
+
+@if (showDetalle() && detalle(); as d) {
+<div class="modal-overlay" (click)="cerrarDetalle()">
+    <div class="modal detail-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Detalle del Test</h3>
+            <button class="btn-icon" (click)="cerrarDetalle()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="detail-body">
+            <div class="detail-header-info">
+                <div class="detail-student">
+                    <span class="student-name">{{ d.estudiante?.nombre }}</span>
+                    <span class="student-email">{{ d.estudiante?.correo }}</span>
+                </div>
+                <span class="badge" [class]="getEstadoClass(d.sesion.estado)">
+                    {{ getEstadoLabel(d.sesion.estado) }}
+                </span>
+            </div>
+
+            @if (d.vector_riasec) {
+            <div class="detail-section">
+                <h4>Perfil RIASEC</h4>
+                <div class="riasec-bars">
+                    @for (dim of ['R','I','A','S','E','C']; track dim) {
+                    <div class="bar-row">
+                        <span class="bar-label" [attr.data-dim]="dim">
+                            <span class="bar-letter">{{ dim }}</span>
+                            {{ riasecNames[dim] }}
+                        </span>
+                        <div class="bar-track">
+                            <div class="bar-fill" [attr.data-dim]="dim"
+                                [style.width.%]="getBarWidth(d.vector_riasec[dim])">
+                            </div>
+                        </div>
+                        <span class="bar-score">{{ (d.vector_riasec[dim]).toFixed(1) }}</span>
+                    </div>
+                    }
+                </div>
+            </div>
+            }
+
+            @if (d.recomendaciones && d.recomendaciones.length > 0) {
+            <div class="detail-section">
+                <h4>Top 5 Carreras Recomendadas</h4>
+                <div class="reco-mini-list">
+                    @for (reco of d.recomendaciones.slice(0, 5); track reco.carrera.id; let i = $index) {
+                    <div class="reco-mini-item">
+                        <span class="reco-rank">{{ i + 1 }}</span>
+                        <span class="reco-name">{{ reco.carrera.nombre }}</span>
+                        <span class="reco-afinidad"
+                            [class.high]="reco.afinidad >= 70"
+                            [class.medium]="reco.afinidad >= 40 && reco.afinidad < 70"
+                            [class.low]="reco.afinidad < 40">
+                            {{ reco.afinidad }}%
+                        </span>
+                    </div>
+                    }
+                </div>
+            </div>
+            }
+
+            @if (d.respuestas && d.respuestas.length > 0) {
+            <div class="detail-section">
+                <h4>Respuestas ({{ d.respuestas.length }})</h4>
+                <div class="respuestas-list">
+                    @for (resp of d.respuestas; track resp.pregunta_id) {
+                    <div class="resp-item">
+                        <span class="resp-dim" [attr.data-dim]="resp.dimension">{{ resp.dimension }}</span>
+                        <span class="resp-text">{{ resp.texto }}</span>
+                        <span class="resp-valor">{{ resp.valor }}/5</span>
+                    </div>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+}

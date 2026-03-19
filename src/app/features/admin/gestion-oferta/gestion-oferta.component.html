@@ -1,0 +1,349 @@
+<div class="admin-layout">
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3L22 8.5V15.5L12 21L2 15.5V8.5L12 3Z" stroke="white" stroke-width="2"
+                            stroke-linejoin="round" />
+                        <path d="M12 3V21M2 8.5L22 8.5" stroke="white" stroke-width="2" />
+                    </svg>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a class="nav-item" routerLink="/admin/usuarios" title="Usuarios">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                </a>
+                <a class="nav-item active" routerLink="/admin/oferta" title="Oferta Académica">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                </a>
+                <a class="nav-item" routerLink="/admin/resultados" title="Resultados">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <path d="M3 9h18M9 21V9" />
+                    </svg>
+                </a>
+                <a class="nav-item" title="Estadisticas">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                    </svg>
+                </a>
+                <a class="nav-item" routerLink="/perfil" title="Mi Perfil">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </a>
+            </nav>
+        </div>
+        <button class="nav-item logout-btn" (click)="auth.logout()" title="Cerrar sesión">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+        </button>
+    </aside>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1>Oferta Académica</h1>
+                <p>Gestiona áreas profesionales y carreras con perfiles RIASEC</p>
+            </div>
+        </div>
+
+
+        <div class="tabs">
+            <button [class.active]="activeTab() === 'areas'" (click)="activeTab.set('areas')">
+                Áreas Profesionales
+                <span class="tab-count">{{ areas().length }}</span>
+            </button>
+            <button [class.active]="activeTab() === 'carreras'" (click)="activeTab.set('carreras')">
+                Carreras
+                <span class="tab-count">{{ carreras().length }}</span>
+            </button>
+        </div>
+
+        @if (loading()) {
+        <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <span>Cargando...</span>
+        </div>
+        } @else {
+
+
+        @if (activeTab() === 'areas') {
+        <div class="tab-header">
+            <button class="btn btn-primary create-btn" (click)="openAreaModal()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Nueva Área
+            </button>
+        </div>
+
+        <div class="cards-grid">
+            @for (area of areas(); track area.id) {
+            <div class="area-card">
+                <div class="area-card-header">
+                    <span class="riasec-badge">{{ area.codigo_riasec }}</span>
+                    <div class="area-actions">
+                        <button class="btn-icon" (click)="openAreaModal(area)" title="Editar">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                            </svg>
+                        </button>
+                        <button class="btn-icon danger-icon" (click)="openDelete('area', area.id, area.nombre)"
+                            title="Eliminar">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path d="M19 6l-1 14H6L5 6" />
+                                <path d="M10 11v6M14 11v6" />
+                                <path d="M9 6V4h6v2" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <h3>{{ area.nombre }}</h3>
+                <p class="area-desc">{{ area.descripcion }}</p>
+                <span class="carreras-count">{{ area.total_carreras }} carreras</span>
+            </div>
+            } @empty {
+            <div class="empty-state">No hay áreas profesionales registradas</div>
+            }
+        </div>
+        }
+
+
+        @if (activeTab() === 'carreras') {
+        <div class="tab-header">
+            <button class="btn btn-primary create-btn" (click)="openCarreraModal()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Nueva Carrera
+            </button>
+        </div>
+
+        <div class="table-wrapper card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Carrera</th>
+                        <th>Área</th>
+                        <th>Perfil RIASEC</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (carrera of filteredCarreras; track carrera.id) {
+                    <tr>
+                        <td>
+                            <div>
+                                <span class="carrera-name">{{ carrera.nombre }}</span>
+                                <span class="carrera-desc">{{ carrera.descripcion }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge badge-area">{{ carrera.area_nombre }}</span>
+                        </td>
+                        <td>
+                            <div class="riasec-pills">
+                                @for (letter of carrera.perfil_riasec.split(''); track $index) {
+                                <span class="riasec-pill" [attr.data-dim]="letter">{{ letter }}</span>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <div class="actions">
+                                <button class="btn-icon" (click)="openCarreraModal(carrera)" title="Editar">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                    </svg>
+                                </button>
+                                <button class="btn-icon danger-icon"
+                                    (click)="openDelete('carrera', carrera.id, carrera.nombre)" title="Eliminar">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <polyline points="3 6 5 6 21 6" />
+                                        <path d="M19 6l-1 14H6L5 6" />
+                                        <path d="M10 11v6M14 11v6" />
+                                        <path d="M9 6V4h6v2" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="4" class="empty-state">No hay carreras registradas</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
+
+        }
+    </main>
+</div>
+
+
+@if (showAreaModal()) {
+<div class="modal-overlay" (click)="closeAll()">
+    <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>{{ editingArea() ? 'Editar' : 'Nueva' }} Área Profesional</h3>
+            <button class="btn-icon" (click)="closeAll()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        @if (formError()) {
+        <div class="alert alert-error">{{ formError() }}</div>
+        }
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" [(ngModel)]="areaForm.nombre"
+                        placeholder="Ej: Investigador" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Código RIASEC</label>
+                    <select class="form-control" [(ngModel)]="areaForm.codigo_riasec">
+                        <option value="">Seleccionar...</option>
+                        <option value="R">R - Realista</option>
+                        <option value="I">I - Investigador</option>
+                        <option value="A">A - Artístico</option>
+                        <option value="S">S - Social</option>
+                        <option value="E">E - Emprendedor</option>
+                        <option value="C">C - Convencional</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Descripción</label>
+                <textarea class="form-control textarea" [(ngModel)]="areaForm.descripcion"
+                    placeholder="Descripción del área profesional..."></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" (click)="closeAll()">Cancelar</button>
+            <button class="btn btn-primary modal-btn" (click)="submitArea()" [disabled]="formLoading()">
+                @if (formLoading()) {
+                <span class="spinner"></span>
+                } @else { {{ editingArea() ? 'Guardar Cambios' : 'Crear Área' }} }
+            </button>
+        </div>
+    </div>
+</div>
+}
+
+
+@if (showCarreraModal()) {
+<div class="modal-overlay" (click)="closeAll()">
+    <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>{{ editingCarrera() ? 'Editar' : 'Nueva' }} Carrera</h3>
+            <button class="btn-icon" (click)="closeAll()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        @if (formError()) {
+        <div class="alert alert-error">{{ formError() }}</div>
+        }
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" [(ngModel)]="carreraForm.nombre"
+                        placeholder="Ej: Ingeniería Civil" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Área Profesional</label>
+                    <select class="form-control" [(ngModel)]="carreraForm.area_id">
+                        @for (area of areas(); track area.id) {
+                        <option [value]="area.id">{{ area.nombre }} ({{ area.codigo_riasec }})</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Perfil RIASEC</label>
+                <input type="text" class="form-control" [(ngModel)]="carreraForm.perfil_riasec" maxlength="6"
+                    placeholder="Ej: RIC (letras RIASEC)" style="text-transform: uppercase" />
+                <span class="form-hint">Combinación de letras R, I, A, S, E, C que mejor describen esta carrera</span>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Descripción</label>
+                <textarea class="form-control textarea" [(ngModel)]="carreraForm.descripcion"
+                    placeholder="Descripción de la carrera..."></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Campo Laboral</label>
+                <textarea class="form-control textarea" [(ngModel)]="carreraForm.campo_laboral"
+                    placeholder="Sectores laborales donde se desempeña..."></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" (click)="closeAll()">Cancelar</button>
+            <button class="btn btn-primary modal-btn" (click)="submitCarrera()" [disabled]="formLoading()">
+                @if (formLoading()) {
+                <span class="spinner"></span>
+                } @else { {{ editingCarrera() ? 'Guardar Cambios' : 'Crear Carrera' }} }
+            </button>
+        </div>
+    </div>
+</div>
+}
+
+
+@if (showDeleteModal()) {
+<div class="modal-overlay" (click)="closeAll()">
+    <div class="modal delete-modal" (click)="$event.stopPropagation()">
+        <div class="delete-icon-wrapper">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+        </div>
+        <h3>Eliminar {{ deletingItem()?.type === 'area' ? 'Área' : 'Carrera' }}</h3>
+        <p>¿Estás seguro de eliminar <strong>{{ deletingItem()?.nombre }}</strong>?
+            Esta acción no se puede deshacer.</p>
+        @if (formError()) {
+        <div class="alert alert-error">{{ formError() }}</div>
+        }
+        <div class="modal-footer">
+            <button class="btn btn-outline" (click)="closeAll()">Cancelar</button>
+            <button class="btn btn-danger modal-btn" (click)="confirmDelete()" [disabled]="formLoading()">
+                @if (formLoading()) {
+                <span class="spinner"></span>
+                } @else { Eliminar }
+            </button>
+        </div>
+    </div>
+</div>
+}
