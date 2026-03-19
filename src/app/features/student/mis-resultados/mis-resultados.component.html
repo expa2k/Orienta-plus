@@ -1,0 +1,190 @@
+<div class="student-layout">
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3L22 8.5V15.5L12 21L2 15.5V8.5L12 3Z" stroke="white" stroke-width="2"
+                            stroke-linejoin="round" />
+                        <path d="M12 3V21M2 8.5L22 8.5" stroke="white" stroke-width="2" />
+                    </svg>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a class="nav-item" routerLink="/dashboard" title="Inicio">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                </a>
+                <a class="nav-item" routerLink="/test" title="Mi Test">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                </a>
+                <a class="nav-item active" routerLink="/mis-resultados" title="Resultados">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10" />
+                        <line x1="12" y1="20" x2="12" y2="4" />
+                        <line x1="6" y1="20" x2="6" y2="14" />
+                    </svg>
+                </a>
+                <a class="nav-item" routerLink="/perfil" title="Mi Perfil">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </a>
+            </nav>
+        </div>
+        <button class="nav-item logout-btn" (click)="auth.logout()" title="Cerrar sesion">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+        </button>
+    </aside>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1>Mis Resultados</h1>
+                <p>Historial de tus tests vocacionales</p>
+            </div>
+            <a class="btn btn-primary" routerLink="/test">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Nuevo Test
+            </a>
+        </div>
+
+        @if (loading()) {
+        <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <span>Cargando historial...</span>
+        </div>
+        } @else {
+
+        <div class="results-layout">
+            <div class="history-panel">
+                <h3>Historial</h3>
+                @for (sesion of sesiones(); track sesion.id) {
+                <button class="history-item"
+                    [class.active]="detalleSeleccionado()?.sesion?.id === sesion.id"
+                    [class.disabled]="sesion.estado !== 'completada'"
+                    (click)="sesion.estado === 'completada' ? verDetalle(sesion.id) : null">
+                    <div class="history-info">
+                        <span class="history-date">{{ sesion.fecha_inicio | date:'dd/MM/yyyy' }}</span>
+                        <span class="badge" [class]="getEstadoClass(sesion.estado)">
+                            {{ getEstadoLabel(sesion.estado) }}
+                        </span>
+                    </div>
+                    <span class="history-responses">{{ sesion.total_respuestas }} respuestas</span>
+                </button>
+                } @empty {
+                <div class="empty-history">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity: .3">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                    </svg>
+                    <p>No has realizado ningun test</p>
+                    <a routerLink="/test" class="btn btn-primary btn-sm">Hacer Test</a>
+                </div>
+                }
+            </div>
+
+            <div class="detail-panel">
+                @if (loadingDetalle()) {
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <span>Cargando resultados...</span>
+                </div>
+                } @else if (detalleSeleccionado(); as d) {
+
+                <div class="detail-card">
+                    <h3>Perfil RIASEC</h3>
+                    <p class="detail-date">Test del {{ d.sesion.fecha_inicio | date:'dd/MM/yyyy HH:mm' }}</p>
+
+                    <div class="riasec-bars">
+                        @for (dim of ['R','I','A','S','E','C']; track dim) {
+                        <div class="bar-row">
+                            <span class="bar-label" [attr.data-dim]="dim">
+                                <span class="bar-letter">{{ dim }}</span>
+                                {{ riasecNames[dim] }}
+                            </span>
+                            <div class="bar-track">
+                                <div class="bar-fill" [attr.data-dim]="dim"
+                                    [style.width.%]="getBarWidth(d.vector_riasec[dim])">
+                                </div>
+                            </div>
+                            <span class="bar-score">{{ (d.vector_riasec[dim]).toFixed(1) }}</span>
+                        </div>
+                        }
+                    </div>
+
+                    @if (d.top_dimensiones && d.top_dimensiones.length > 0) {
+                    <div class="top-dims">
+                        <span class="top-label">Dimensiones dominantes:</span>
+                        @for (t of d.top_dimensiones; track t.dimension) {
+                        <span class="top-badge" [attr.data-dim]="t.dimension">
+                            {{ t.dimension }} - {{ riasecNames[t.dimension] }}
+                        </span>
+                        }
+                    </div>
+                    }
+                </div>
+
+                @if (d.recomendaciones && d.recomendaciones.length > 0) {
+                <div class="detail-card">
+                    <h3>Carreras Recomendadas</h3>
+                    <div class="reco-list">
+                        @for (reco of d.recomendaciones.slice(0, 5); track reco.carrera.id; let i = $index) {
+                        <div class="reco-item">
+                            <span class="reco-rank">{{ i + 1 }}</span>
+                            <div class="reco-body">
+                                <div class="reco-header">
+                                    <span class="reco-name">{{ reco.carrera.nombre }}</span>
+                                    <span class="afinidad-badge"
+                                        [class.high]="reco.afinidad >= 70"
+                                        [class.medium]="reco.afinidad >= 40 && reco.afinidad < 70"
+                                        [class.low]="reco.afinidad < 40">
+                                        {{ reco.afinidad }}%
+                                    </span>
+                                </div>
+                                <span class="reco-desc">{{ reco.carrera.descripcion }}</span>
+                                <div class="reco-meta">
+                                    <span class="reco-area">{{ reco.carrera.area_nombre }}</span>
+                                    <div class="reco-riasec">
+                                        @for (letter of reco.carrera.perfil_riasec.split(''); track $index) {
+                                        <span class="mini-pill" [attr.data-dim]="letter">{{ letter }}</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+
+                } @else {
+                <div class="empty-detail">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity: .3">
+                        <line x1="18" y1="20" x2="18" y2="10" />
+                        <line x1="12" y1="20" x2="12" y2="4" />
+                        <line x1="6" y1="20" x2="6" y2="14" />
+                    </svg>
+                    <p>Selecciona un test completado para ver tus resultados</p>
+                </div>
+                }
+            </div>
+        </div>
+        }
+    </main>
+</div>

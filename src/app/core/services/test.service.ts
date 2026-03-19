@@ -50,4 +50,8 @@ export class TestService {
     getSesion(sesionId: number): Observable<SesionTest> {
         return this.http.get<SesionTest>(`${this.API}/test/sesion/${sesionId}`);
     }
+
+    getDetalleSesion(sesionId: number): Observable<any> {
+        return this.http.get<any>(`${this.API}/test/sesion/${sesionId}/detalle`);
+    }
 }

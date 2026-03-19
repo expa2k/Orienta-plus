@@ -4,19 +4,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px 20px;
+    padding: 60px 40px;
     background: var(--clr-bg);
 }
 
 .results-container {
-    max-width: 720px;
+    max-width: 960px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 40px;
 }
 
 
 .intro-card {
-    max-width: 520px;
+    max-width: 680px;
     text-align: center;
 }
 
@@ -187,11 +187,11 @@
 
 .question-card {
     width: 100%;
-    max-width: 600px;
+    max-width: 780px;
     background: var(--clr-surface);
     border: 1px solid var(--clr-border);
     border-radius: var(--radius-lg);
-    padding: 32px;
+    padding: 40px;
 }
 
 .progress-section {
@@ -659,11 +659,30 @@
 }
 
 
+@media (max-width: 900px) {
+    .test-container { padding: 40px 24px; }
+    .results-container { padding: 32px 24px; }
+    .question-card { max-width: 100%; padding: 28px; }
+    .intro-card { max-width: 100%; }
+}
+
 @media (max-width: 640px) {
-    .info-cards { flex-direction: column; }
+    .test-container { padding: 24px 16px; min-height: calc(100vh - 60px); }
+    .results-container { padding: 20px 16px; }
+    .intro-card h1 { font-size: 22px; }
+    .intro-subtitle { font-size: 14px; margin-bottom: 20px; }
+    .info-cards { flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .riasec-preview { margin-bottom: 20px; }
+    .dim-pill { width: 34px; height: 34px; font-size: 14px; }
     .question-card { padding: 20px; }
     .question-text { font-size: 17px; }
+    .likert-btn { padding: 10px 14px; }
     .bar-label { width: 100px; font-size: 12px; }
     .reco-item { flex-direction: column; }
     .reco-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .results-header h1 { font-size: 22px; }
+    .result-card { padding: 20px; }
+    .result-card h2 { font-size: 16px; }
+    .session-info { flex-direction: column; gap: 10px; }
+    .continuar-card { max-width: 100%; }
 }

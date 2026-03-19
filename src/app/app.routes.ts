@@ -30,6 +30,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/student/test-vocacional/test-vocacional.component').then(m => m.TestVocacionalComponent)
     },
     {
+        path: 'mis-resultados',
+        canActivate: [authGuard],
+        loadComponent: () => import('./features/student/mis-resultados/mis-resultados.component').then(m => m.MisResultadosComponent)
+    },
+    {
         path: 'admin',
         canActivate: [adminGuard],
         children: [
