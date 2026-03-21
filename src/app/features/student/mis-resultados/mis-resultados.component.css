@@ -417,8 +417,33 @@
 .reco-meta {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
 }
+
+.reco-salary {
+    font-size: 12px;
+    font-weight: 600;
+    color: #059669;
+    background: rgba(16, 185, 129, 0.1);
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.reco-demand {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.demand-alta { color: #dc2626; background: rgba(239, 68, 68, 0.1); }
+.demand-media { color: #d97706; background: rgba(245, 158, 11, 0.1); }
+.demand-baja { color: #4b5563; background: rgba(107, 114, 128, 0.1); }
 
 .reco-area {
     font-size: 12px;

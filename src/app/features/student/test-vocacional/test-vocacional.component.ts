@@ -1,6 +1,7 @@
 import { Component, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { DecimalPipe } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { TestService } from '../../../core/services/test.service';
 import {
@@ -11,12 +12,12 @@ import {
     RecomendacionCarrera
 } from '../../../core/models/test.model';
 
-type TestPhase = 'intro' | 'continuar' | 'preguntas' | 'procesando' | 'resultados';
+type TestPhase = 'intro' | 'continuar' | 'preguntas' | 'pregunta-abierta' | 'procesando' | 'resultados';
 
 @Component({
     selector: 'app-test-vocacional',
     standalone: true,
-    imports: [FormsModule],
+    imports: [FormsModule, DecimalPipe],
     templateUrl: './test-vocacional.component.html',
     styleUrl: './test-vocacional.component.css'
 })
@@ -67,7 +68,19 @@ export class TestVocacionalComponent {
 
     allAnswered = computed(() => {
         const total = this.preguntas().length;
-        return total > 0 && Object.keys(this.respuestas()).length >= total;
+        if (total === 0) return false;
+        
+        // Verifica que todas las preguntas del bloque tengan respuesta.
+        // Si es abierta, exige un mínimo de 15 caracteres para asegurar buen análisis de la IA.
+        return this.preguntas().every(p => {
+            const r = this.respuestas()[p.id];
+            if (!r) return false;
+            
+            if (p.tipo === 'abierta') {
+                return r.trim().length > 15;
+            }
+            return true;
+        });
     });
 
     currentPregunta = computed(() => {
@@ -149,8 +162,12 @@ export class TestVocacionalComponent {
         });
     }
 
-    seleccionarRespuesta(preguntaId: number, valor: string): void {
+    guardarRespuestaLocal(preguntaId: number, valor: string): void {
         this.respuestas.update(prev => ({ ...prev, [preguntaId]: valor }));
+    }
+
+    seleccionarRespuesta(preguntaId: number, valor: string): void {
+        this.guardarRespuestaLocal(preguntaId, valor);
 
         const sesionId = this.sesion()?.id;
         if (sesionId) {

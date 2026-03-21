@@ -148,6 +148,23 @@
                 }
             </div>
             }
+
+            @if (pregunta.tipo === 'abierta') {
+            <div class="abierta-group">
+                <textarea 
+                    class="textarea-abierta" 
+                    [ngModel]="getRespuesta(pregunta.id)"
+                    (ngModelChange)="guardarRespuestaLocal(pregunta.id, $event)"
+                    placeholder="Escribe tu respuesta con el mayor detalle posible (mínimo 15 caracteres)..."
+                    rows="5">
+                </textarea>
+                @if (getRespuesta(pregunta.id).length < 15) {
+                <p style="color: #ef4444; font-size: 0.85rem; margin-top: 8px;">
+                    Te faltan al menos {{ 15 - getRespuesta(pregunta.id).length }} caracteres más.
+                </p>
+                }
+            </div>
+            }
         </div>
         }
 
@@ -187,7 +204,6 @@
     </div>
 </div>
 }
-
 
 @if (phase() === 'procesando') {
 <div class="test-container">
@@ -275,6 +291,17 @@
                     <p class="reco-desc">{{ reco.carrera.descripcion }}</p>
                     <div class="reco-meta">
                         <span class="reco-area">{{ reco.carrera.area_nombre }}</span>
+                        
+                        @if (reco.carrera.salario_promedio) {
+                        <span class="reco-salary">Sueldo Estimado: ${{ reco.carrera.salario_promedio | number }} MXN</span>
+                        }
+                        
+                        @if (reco.carrera.demanda_laboral) {
+                        <span class="reco-demand" [class]="'demand-' + reco.carrera.demanda_laboral.toLowerCase()">
+                            Demanda {{ reco.carrera.demanda_laboral }}
+                        </span>
+                        }
+                        
                         <span class="reco-riasec">
                             @for (l of reco.carrera.perfil_riasec.split(''); track $index) {
                             <span class="mini-pill" [attr.data-dim]="l">{{ l }}</span>

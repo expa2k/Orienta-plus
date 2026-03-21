@@ -240,9 +240,9 @@
 
             @if (d.recomendaciones && d.recomendaciones.length > 0) {
             <div class="detail-section">
-                <h4>Top 5 Carreras Recomendadas</h4>
+                <h4>Top 3 Carreras Recomendadas</h4>
                 <div class="reco-mini-list">
-                    @for (reco of d.recomendaciones.slice(0, 5); track reco.carrera.id; let i = $index) {
+                    @for (reco of d.recomendaciones.slice(0, 3); track reco.carrera.id; let i = $index) {
                     <div class="reco-mini-item">
                         <span class="reco-rank">{{ i + 1 }}</span>
                         <span class="reco-name">{{ reco.carrera.nombre }}</span>

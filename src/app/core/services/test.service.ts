@@ -43,6 +43,10 @@ export class TestService {
         return this.http.post<FinalizarResponse>(`${this.API}/test/finalizar/${sesionId}`, {});
     }
 
+    enviarPreguntaAbierta(sesionId: number, texto: string): Observable<any> {
+        return this.http.post<any>(`${this.API}/test/pregunta-abierta/${sesionId}`, { texto });
+    }
+
     getHistorial(): Observable<SesionTest[]> {
         return this.http.get<SesionTest[]>(`${this.API}/test/historial`);
     }

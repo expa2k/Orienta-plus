@@ -1,6 +1,6 @@
 import { Component, signal, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { TestService } from '../../../core/services/test.service';
 import { SesionTest, VectorRiasec, FinalizarResponse } from '../../../core/models/test.model';
@@ -9,13 +9,13 @@ interface ResultadoCompleto {
     sesion: SesionTest;
     vector_riasec: VectorRiasec;
     top_dimensiones: { dimension: string; score: number }[];
-    recomendaciones: { carrera: { id: number; nombre: string; descripcion: string; perfil_riasec: string; campo_laboral: string; area_nombre: string }; afinidad: number }[];
+    recomendaciones: { carrera: { id: number; nombre: string; descripcion: string; perfil_riasec: string; campo_laboral: string; area_nombre: string; salario_promedio?: number; demanda_laboral?: string }; afinidad: number }[];
 }
 
 @Component({
     selector: 'app-mis-resultados',
     standalone: true,
-    imports: [RouterLink, DatePipe],
+    imports: [RouterLink, DatePipe, DecimalPipe],
     templateUrl: './mis-resultados.component.html',
     styleUrl: './mis-resultados.component.css'
 })

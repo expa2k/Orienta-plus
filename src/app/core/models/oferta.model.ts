@@ -17,4 +17,6 @@ export interface Carrera {
   campo_laboral: string;
   activo: boolean;
   area_nombre: string;
+  salario_promedio?: number;
+  demanda_laboral?: string;
 }

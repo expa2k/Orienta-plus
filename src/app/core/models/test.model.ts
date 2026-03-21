@@ -1,7 +1,7 @@
 export interface PreguntaTest {
   id: number;
   bloque: number;
-  tipo: 'likert' | 'opcion_multiple';
+  tipo: 'likert' | 'opcion_multiple' | 'abierta';
   texto: string;
   opciones: any;
   dimension_riasec: string;
@@ -67,6 +67,8 @@ export interface RecomendacionCarrera {
     perfil_riasec: string;
     campo_laboral: string;
     area_nombre: string;
+    salario_promedio?: number;
+    demanda_laboral?: string;
   };
   afinidad: number;
 }

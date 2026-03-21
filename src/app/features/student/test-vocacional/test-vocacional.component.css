@@ -603,8 +603,33 @@
 .reco-meta {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
 }
+
+.reco-salary {
+    font-size: 12px;
+    font-weight: 600;
+    color: #059669;
+    background: rgba(16, 185, 129, 0.1);
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.reco-demand {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.demand-alta { color: #dc2626; background: rgba(239, 68, 68, 0.1); }
+.demand-media { color: #d97706; background: rgba(245, 158, 11, 0.1); }
+.demand-baja { color: #4b5563; background: rgba(107, 114, 128, 0.1); }
 
 .reco-area {
     font-size: 12px;
@@ -685,4 +710,46 @@
     .result-card h2 { font-size: 16px; }
     .session-info { flex-direction: column; gap: 10px; }
     .continuar-card { max-width: 100%; }
+}
+/* --- Estilos para Pregunta Abierta (IA) --- */
+.prompt-card {
+    background: white;
+    padding: 50px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+}
+
+.prompt-text {
+    color: #4b5563;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin: 20px 0 30px 0;
+}
+
+.textarea-abierta {
+    width: 100%;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    font-size: 1.1rem;
+    font-family: inherit;
+    resize: vertical;
+    transition: all 0.3s ease;
+    background: #f9fafb;
+    box-sizing: border-box;
+    color: #1f2937;
+}
+
+.textarea-abierta:focus {
+    outline: none;
+    border-color: #4f46e5;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.textarea-abierta:disabled {
+    background: #f3f4f6;
+    cursor: not-allowed;
+    opacity: 0.7;
 }

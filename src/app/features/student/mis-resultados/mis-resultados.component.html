@@ -160,6 +160,17 @@
                                 <span class="reco-desc">{{ reco.carrera.descripcion }}</span>
                                 <div class="reco-meta">
                                     <span class="reco-area">{{ reco.carrera.area_nombre }}</span>
+                                    
+                                    @if (reco.carrera.salario_promedio) {
+                                    <span class="reco-salary">Sueldo Estimado: ${{ reco.carrera.salario_promedio | number }} MXN</span>
+                                    }
+                                    
+                                    @if (reco.carrera.demanda_laboral) {
+                                    <span class="reco-demand" [class]="'demand-' + reco.carrera.demanda_laboral.toLowerCase()">
+                                        Demanda {{ reco.carrera.demanda_laboral }}
+                                    </span>
+                                    }
+                                    
                                     <div class="reco-riasec">
                                         @for (letter of reco.carrera.perfil_riasec.split(''); track $index) {
                                         <span class="mini-pill" [attr.data-dim]="letter">{{ letter }}</span>
