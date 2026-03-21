@@ -30,6 +30,8 @@ export class TestVocacionalComponent {
     respondidas = signal<number[]>([]);
     loading = signal(false);
     error = signal('');
+    showUnansweredWarning = signal(false);
+    unansweredCount = signal(0);
 
     vectorFinal = signal<VectorRiasec | null>(null);
     topDimensiones = signal<{ dimension: string; score: number }[]>([]);
@@ -59,11 +61,12 @@ export class TestVocacionalComponent {
         { value: '5', label: 'Muy de acuerdo' }
     ];
 
+    // Progress now based on current question position (navigation), not answers
     progress = computed(() => {
         const total = this.preguntas().length;
         if (total === 0) return 0;
-        const answered = Object.keys(this.respuestas()).length;
-        return Math.round((answered / total) * 100);
+        const current = this.currentQuestion() + 1;
+        return Math.round((current / total) * 100);
     });
 
     allAnswered = computed(() => {
@@ -191,6 +194,31 @@ export class TestVocacionalComponent {
         if (idx > 0) {
             this.currentQuestion.set(idx - 1);
         }
+    }
+
+    // Validate all questions answered before submitting block
+    intentarEnviarBloque(): void {
+        if (this.allAnswered()) {
+            this.showUnansweredWarning.set(false);
+            this.enviarBloque();
+        } else {
+            const total = this.preguntas().length;
+            const answered = Object.keys(this.respuestas()).length;
+            this.unansweredCount.set(total - answered);
+            this.showUnansweredWarning.set(true);
+        }
+    }
+
+    dismissWarning(): void {
+        this.showUnansweredWarning.set(false);
+    }
+
+    goToFirstUnanswered(): void {
+        const idx = this.preguntas().findIndex(p => !this.getRespuesta(p.id));
+        if (idx >= 0) {
+            this.currentQuestion.set(idx);
+        }
+        this.showUnansweredWarning.set(false);
     }
 
     enviarBloque(): void {
