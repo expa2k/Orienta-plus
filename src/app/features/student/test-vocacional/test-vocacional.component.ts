@@ -72,13 +72,13 @@ export class TestVocacionalComponent {
     allAnswered = computed(() => {
         const total = this.preguntas().length;
         if (total === 0) return false;
-        
+
         // Verifica que todas las preguntas del bloque tengan respuesta.
-        // Si es abierta, exige un mínimo de 15 caracteres para asegurar buen análisis de la IA.
+        // Si es abierta, exige un mínimo de 15 palabras para que la ia analize mejor las respuestas.
         return this.preguntas().every(p => {
             const r = this.respuestas()[p.id];
             if (!r) return false;
-            
+
             if (p.tipo === 'abierta') {
                 return r.trim().length > 15;
             }
