@@ -157,7 +157,7 @@ export class GestionOfertaComponent implements OnInit {
         });
     }
 
-    // ── Delete ──
+
     openDelete(type: 'area' | 'carrera', id: number, nombre: string): void {
         this.deletingItem.set({ type, id, nombre });
         this.showDeleteModal.set(true);
