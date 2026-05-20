@@ -50,6 +50,10 @@ export interface Estadisticas {
     abandonadas: number;
     tasa_completado: number;
     distribucion_perfiles: Record<string, number>;
+    vector_promedio: Record<string, number>;
+    tiempo_promedio_minutos: number;
+    carreras_top: { nombre: string; frecuencia: number }[];
+    tests_por_mes: { mes: string; total: number }[];
 }
 
 @Injectable({ providedIn: 'root' })

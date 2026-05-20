@@ -598,3 +598,138 @@
         width: 100%;
     }
 }
+
+.ultimo-resultado-section {
+    margin: 0 40px 0;
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.ult-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--clr-border);
+    background: var(--clr-bg);
+}
+
+.ult-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--clr-text);
+}
+
+.ult-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--clr-primary);
+    text-decoration: none;
+    transition: opacity .2s;
+}
+
+.ult-link:hover { opacity: .75; }
+
+.ult-body {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0;
+}
+
+.ult-perfil {
+    padding: 20px 24px;
+    border-right: 1px solid var(--clr-border);
+    min-width: 220px;
+}
+
+.ult-carreras {
+    padding: 20px 24px;
+}
+
+.ult-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--clr-text-secondary);
+    margin-bottom: 10px;
+}
+
+.ult-dims {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ult-dim-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    width: fit-content;
+}
+
+.ult-dim-badge[data-dim="R"] { background: rgba(239,68,68,.1); color: #dc2626; }
+.ult-dim-badge[data-dim="I"] { background: rgba(59,130,246,.1); color: #2563eb; }
+.ult-dim-badge[data-dim="A"] { background: rgba(168,85,247,.1); color: #9333ea; }
+.ult-dim-badge[data-dim="S"] { background: rgba(34,197,94,.1); color: #16a34a; }
+.ult-dim-badge[data-dim="E"] { background: rgba(245,158,11,.1); color: #d97706; }
+.ult-dim-badge[data-dim="C"] { background: rgba(107,114,128,.1); color: #4b5563; }
+
+.ult-carreras-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ult-carrera-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--clr-bg);
+    border-radius: 8px;
+}
+
+.ult-rank {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--clr-primary), #ea580c);
+    color: #fff;
+    font-weight: 700;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ult-carrera-nombre {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--clr-text);
+}
+
+.ult-afinidad {
+    font-size: 12px;
+    font-weight: 700;
+    color: #16a34a;
+}
+
+@media (max-width: 768px) {
+    .ultimo-resultado-section { margin: 0 20px; }
+    .ult-body { grid-template-columns: 1fr; }
+    .ult-perfil { border-right: none; border-bottom: 1px solid var(--clr-border); }
+}

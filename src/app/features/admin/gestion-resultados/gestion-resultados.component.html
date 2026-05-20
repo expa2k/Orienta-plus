@@ -31,7 +31,7 @@
                         <path d="M3 9h18M9 21V9" />
                     </svg>
                 </a>
-                <a class="nav-item" title="Estadisticas">
+                <a class="nav-item" routerLink="/admin/estadisticas" title="Estadisticas">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                     </svg>
@@ -113,18 +113,34 @@
         }
 
         <div class="filter-bar">
-            <div class="filter-tabs">
-                <button [class.active]="filtroEstado() === ''" (click)="filtroEstado.set('')">
-                    Todos
-                    <span class="tab-count">{{ resultados().length }}</span>
-                </button>
-                <button [class.active]="filtroEstado() === 'completada'" (click)="filtroEstado.set('completada')">
-                    Completadas
-                    <span class="tab-count">{{ totalCompletadas() }}</span>
-                </button>
-                <button [class.active]="filtroEstado() === 'en_progreso'" (click)="filtroEstado.set('en_progreso')">
-                    En progreso
-                    <span class="tab-count">{{ totalEnProgreso() }}</span>
+            <div class="filter-left">
+                <div class="filter-tabs">
+                    <button [class.active]="filtroEstado() === ''" (click)="filtroEstado.set(''); currentPage.set(1)">
+                        Todos <span class="tab-count">{{ resultados().length }}</span>
+                    </button>
+                    <button [class.active]="filtroEstado() === 'completada'" (click)="filtroEstado.set('completada'); currentPage.set(1)">
+                        Completadas <span class="tab-count">{{ totalCompletadas() }}</span>
+                    </button>
+                    <button [class.active]="filtroEstado() === 'en_progreso'" (click)="filtroEstado.set('en_progreso'); currentPage.set(1)">
+                        En progreso <span class="tab-count">{{ totalEnProgreso() }}</span>
+                    </button>
+                </div>
+            </div>
+            <div class="filter-right">
+                <div class="search-box">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <input type="text" placeholder="Buscar estudiante..." [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event); onSearchChange()" />
+                </div>
+                <button class="btn-csv" (click)="exportarCSV()" title="Exportar CSV">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Exportar CSV
                 </button>
             </div>
         </div>
@@ -149,7 +165,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (r of filteredResultados(); track r.sesion.id) {
+                    @for (r of pagedResultados(); track r.sesion.id) {
                     <tr>
                         <td>
                             <span class="student-name">{{ r.estudiante?.nombre }}</span>
@@ -164,10 +180,10 @@
                         <td>
                             @if (r.perfil_dominante) {
                             <span class="dim-badge" [attr.data-dim]="r.perfil_dominante">
-                                {{ r.perfil_dominante }} - {{ riasecNames[r.perfil_dominante] }}
+                                {{ r.perfil_dominante }} — {{ riasecNames[r.perfil_dominante] }}
                             </span>
                             } @else {
-                            <span class="no-data">-</span>
+                            <span class="no-data">—</span>
                             }
                         </td>
                         <td>{{ r.sesion.total_respuestas }}</td>
@@ -188,6 +204,23 @@
                 </tbody>
             </table>
         </div>
+
+        @if (totalPages() > 1) {
+        <div class="pagination">
+            <button class="page-btn" [disabled]="currentPage() === 1" (click)="currentPage.set(currentPage() - 1)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6" />
+                </svg>
+            </button>
+            <span class="page-info">{{ currentPage() }} / {{ totalPages() }}</span>
+            <button class="page-btn" [disabled]="currentPage() === totalPages()" (click)="currentPage.set(currentPage() + 1)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
+            </button>
+        </div>
+        }
+
         }
     </main>
 </div>

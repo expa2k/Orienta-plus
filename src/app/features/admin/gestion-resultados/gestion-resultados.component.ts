@@ -1,6 +1,7 @@
 import { Component, signal, computed, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import {
     AdminResultsService,
@@ -12,7 +13,7 @@ import {
 @Component({
     selector: 'app-gestion-resultados',
     standalone: true,
-    imports: [RouterLink, DatePipe],
+    imports: [RouterLink, DatePipe, DecimalPipe, FormsModule],
     templateUrl: './gestion-resultados.component.html',
     styleUrl: './gestion-resultados.component.css'
 })
@@ -22,7 +23,11 @@ export class GestionResultadosComponent implements OnInit {
     estadisticas = signal<Estadisticas | null>(null);
     loading = signal(true);
     filtroEstado = signal('');
+    searchQuery = signal('');
     showDetalle = signal(false);
+
+    readonly PAGE_SIZE = 10;
+    currentPage = signal(1);
 
     riasecNames: Record<string, string> = {
         'R': 'Realista', 'I': 'Investigador', 'A': 'Artistico',
@@ -31,23 +36,26 @@ export class GestionResultadosComponent implements OnInit {
 
     filteredResultados = computed(() => {
         const filtro = this.filtroEstado();
-        const items = this.resultados();
-        if (!filtro) return items;
-        return items.filter(r => r.sesion.estado === filtro);
+        const q = this.searchQuery().toLowerCase().trim();
+        return this.resultados().filter(r => {
+            const matchEstado = !filtro || r.sesion.estado === filtro;
+            const matchSearch = !q || (r.estudiante?.nombre?.toLowerCase().includes(q) ?? false);
+            return matchEstado && matchSearch;
+        });
     });
 
-    totalCompletadas = computed(() =>
-        this.resultados().filter(r => r.sesion.estado === 'completada').length
-    );
+    totalPages = computed(() => Math.max(1, Math.ceil(this.filteredResultados().length / this.PAGE_SIZE)));
 
-    totalEnProgreso = computed(() =>
-        this.resultados().filter(r => r.sesion.estado === 'en_progreso').length
-    );
+    pagedResultados = computed(() => {
+        const page = this.currentPage();
+        const start = (page - 1) * this.PAGE_SIZE;
+        return this.filteredResultados().slice(start, start + this.PAGE_SIZE);
+    });
 
-    constructor(
-        public auth: AuthService,
-        private adminService: AdminResultsService
-    ) { }
+    totalCompletadas = computed(() => this.resultados().filter(r => r.sesion.estado === 'completada').length);
+    totalEnProgreso = computed(() => this.resultados().filter(r => r.sesion.estado === 'en_progreso').length);
+
+    constructor(public auth: AuthService, private adminService: AdminResultsService) { }
 
     ngOnInit(): void {
         this.cargarResultados();
@@ -57,10 +65,7 @@ export class GestionResultadosComponent implements OnInit {
     cargarResultados(): void {
         this.loading.set(true);
         this.adminService.getResultados().subscribe({
-            next: (res) => {
-                this.resultados.set(res);
-                this.loading.set(false);
-            },
+            next: (res) => { this.resultados.set(res); this.loading.set(false); },
             error: () => this.loading.set(false)
         });
     }
@@ -73,21 +78,34 @@ export class GestionResultadosComponent implements OnInit {
 
     verDetalle(sesionId: number): void {
         this.adminService.getResultadoDetalle(sesionId).subscribe({
-            next: (res) => {
-                this.detalle.set(res);
-                this.showDetalle.set(true);
-            }
+            next: (res) => { this.detalle.set(res); this.showDetalle.set(true); }
         });
     }
 
-    cerrarDetalle(): void {
-        this.showDetalle.set(false);
-        this.detalle.set(null);
+    cerrarDetalle(): void { this.showDetalle.set(false); this.detalle.set(null); }
+
+    onSearchChange(): void { this.currentPage.set(1); }
+
+    exportarCSV(): void {
+        const rows = this.filteredResultados();
+        const headers = ['Estudiante', 'Correo', 'Fecha', 'Estado', 'Perfil Dominante', 'Respuestas'];
+        const data = rows.map(r => [
+            r.estudiante?.nombre ?? '',
+            r.estudiante?.correo ?? '',
+            r.sesion.fecha_inicio,
+            r.sesion.estado,
+            r.perfil_dominante ?? '',
+            r.sesion.total_respuestas
+        ]);
+        const csv = [headers, ...data].map(row => row.map(v => `"${v}"`).join(',')).join('\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'resultados-orienta.csv'; a.click();
+        URL.revokeObjectURL(url);
     }
 
-    getBarWidth(score: number): number {
-        return (score / 5) * 100;
-    }
+    getBarWidth(score: number): number { return (score / 5) * 100; }
 
     getEstadoClass(estado: string): string {
         switch (estado) {

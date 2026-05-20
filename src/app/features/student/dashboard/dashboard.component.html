@@ -125,6 +125,56 @@
             </div>
         </div>
 
+        <!-- ULTIMO RESULTADO -->
+        @if (!loadingResultado() && ultimoResultado(); as r) {
+        <div class="ultimo-resultado-section">
+            <div class="ult-header">
+                <div class="ult-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                        <polyline points="17 6 23 6 23 12" />
+                    </svg>
+                    Tu último resultado
+                </div>
+                <a class="ult-link" routerLink="/mis-resultados">
+                    Ver historial completo
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                </a>
+            </div>
+            <div class="ult-body">
+                @if (r.top_dimensiones && r.top_dimensiones.length > 0) {
+                <div class="ult-perfil">
+                    <span class="ult-label">Perfil dominante</span>
+                    <div class="ult-dims">
+                        @for (d of r.top_dimensiones; track d.dimension) {
+                        <span class="ult-dim-badge" [attr.data-dim]="d.dimension">
+                            {{ d.dimension }} — {{ riasecNames[d.dimension] }}
+                        </span>
+                        }
+                    </div>
+                </div>
+                }
+                @if (r.recomendaciones && r.recomendaciones.length > 0) {
+                <div class="ult-carreras">
+                    <span class="ult-label">Carreras recomendadas</span>
+                    <div class="ult-carreras-list">
+                        @for (rec of r.recomendaciones.slice(0,3); track rec.carrera.id; let i = $index) {
+                        <div class="ult-carrera-item">
+                            <span class="ult-rank">{{ i + 1 }}</span>
+                            <span class="ult-carrera-nombre">{{ rec.carrera.nombre }}</span>
+                            <span class="ult-afinidad">{{ rec.afinidad | number:'1.0-0' }}%</span>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        }
+
         <!-- CONTENT SECTION: test card + testimonios -->
         <div class="content-section">
             <div class="test-card">

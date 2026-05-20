@@ -54,6 +54,10 @@ export const routes: Routes = [
             {
                 path: 'resultados',
                 loadComponent: () => import('./features/admin/gestion-resultados/gestion-resultados.component').then(m => m.GestionResultadosComponent)
+            },
+            {
+                path: 'estadisticas',
+                loadComponent: () => import('./features/admin/estadisticas/estadisticas.component').then(m => m.EstadisticasComponent)
             }
         ]
     },
