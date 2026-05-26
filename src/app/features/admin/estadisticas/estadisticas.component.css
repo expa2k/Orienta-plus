@@ -3,7 +3,7 @@
     min-height: 100vh;
     background: var(--clr-bg);
 }
-
+/* --- sidebar hecho --- */
 .sidebar {
     width: 68px;
     background: var(--clr-sidebar);
