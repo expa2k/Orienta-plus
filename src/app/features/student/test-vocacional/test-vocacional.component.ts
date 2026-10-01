@@ -98,6 +98,7 @@ export class TestVocacionalComponent {
         private router: Router
     ) { }
 
+    
     iniciarTest(): void {
         this.loading.set(true);
         this.error.set('');
@@ -146,25 +147,26 @@ export class TestVocacionalComponent {
         this.phase.set('preguntas');
     }
 
-    reiniciarTest(): void {
-        this.loading.set(true);
-        this.testService.iniciarTestNuevo().subscribe({
-            next: (res) => {
-                this.sesion.set(res.sesion);
-                this.preguntas.set(res.preguntas);
-                this.respondidas.set([]);
-                this.currentQuestion.set(0);
-                this.respuestas.set({});
-                this.phase.set('preguntas');
-                this.loading.set(false);
-            },
-            error: (err) => {
-                this.error.set(err?.error?.message ?? 'Error al reiniciar');
-                this.loading.set(false);
-            }
-        });
-    }
-
+   reiniciarTest(): void {
+    if (!confirm('Se perderá tu avance actual. ¿Iniciar un nuevo test?')) return;   // <- línea nueva
+    this.loading.set(true);
+    this.testService.iniciarTestNuevo().subscribe({
+        next: (res) => {
+            this.sesion.set(res.sesion);
+            this.preguntas.set(res.preguntas);
+            this.respondidas.set([]);
+            this.currentQuestion.set(0);
+            this.respuestas.set({});
+            this.phase.set('preguntas');
+            this.loading.set(false);
+        },
+        error: (err) => {
+            this.error.set(err?.error?.message ?? 'Error al reiniciar');
+            this.loading.set(false);
+        }
+    });
+}
+    
     guardarRespuestaLocal(preguntaId: number, valor: string): void {
         this.respuestas.update(prev => ({ ...prev, [preguntaId]: valor }));
     }
