@@ -116,7 +116,7 @@ export class MisResultadosComponent implements OnInit {
         }).join('');
         const recoHtml = (d.recomendaciones ?? []).slice(0, 3).map((r, i) => `
             <div class="reco-item">
-                <div class="reco-name">${i + 1}. ${r.carrera.nombre} <span class="reco-afinidad">${r.afinidad}%</span></div>
+                <div class="reco-name">${i + 1}. ${r.carrera.nombre}</div>
                 <div class="reco-desc">${r.carrera.descripcion ?? ''}</div>
             </div>`).join('');
         const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Reporte Vocacional</title>${style}</head>
