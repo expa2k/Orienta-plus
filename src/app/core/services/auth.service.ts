@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { AuthResponse, LoginRequest, RegisterRequest, User } from '../models/user.model';
 import { jwtDecode } from 'jwt-decode';
-
+import { environment } from '../../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     private readonly TOKEN_KEY = 'orienta_token';
-    private readonly API = 'http://localhost:5001/api';
+    private readonly API = `${environment.apiUrl}/api`;
 
     currentUser = signal<User | null>(null);
     token = signal<string | null>(null);

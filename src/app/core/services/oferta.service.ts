@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AreaProfesional, Carrera } from '../models/oferta.model';
-
+import { environment } from '../../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class OfertaService {
-    private readonly API = 'http://localhost:5001/api';
+    private readonly API = `${environment.apiUrl}/api`;
 
     constructor(private http: HttpClient) { }
 

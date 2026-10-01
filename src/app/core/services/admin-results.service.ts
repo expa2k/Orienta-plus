@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { environment } from '../../../environments/environment';
 export interface ResultadoSesion {
     sesion: {
         id: number;
@@ -58,7 +58,7 @@ export interface Estadisticas {
 
 @Injectable({ providedIn: 'root' })
 export class AdminResultsService {
-    private API = 'http://localhost:5001/api';
+    private API = `${environment.apiUrl}/api`;
 
     constructor(private http: HttpClient) { }
 

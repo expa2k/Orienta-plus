@@ -9,10 +9,10 @@ import {
     RespuestaPayload,
     SesionTest
 } from '../models/test.model';
-
+import { environment } from '../../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class TestService {
-    private readonly API = 'http://localhost:5001/api';
+    private readonly API = `${environment.apiUrl}/api`;
 
     constructor(private http: HttpClient) { }
 
