@@ -1,5 +1,5 @@
 import { Component, signal, computed } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
@@ -17,7 +17,7 @@ type TestPhase = 'intro' | 'continuar' | 'preguntas' | 'pregunta-abierta' | 'pro
 @Component({
     selector: 'app-test-vocacional',
     standalone: true,
-    imports: [FormsModule, DecimalPipe],
+    imports: [FormsModule, DecimalPipe, RouterLink],
     templateUrl: './test-vocacional.component.html',
     styleUrl: './test-vocacional.component.css'
 })
